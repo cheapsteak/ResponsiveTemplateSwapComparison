@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<meta charset=utf-8 />
+<title>Responsive template swapping with matchMedia, handlebars, and Backbone Views</title>
+</head>
+<body>
+
+<section id="gitRepos"></section>
+
+<div class="loading">
+    Loading...  
+</div>
+  
+<script type="text/x-handlebars-template" id="table-template">
+    <table class="big">
+        <thead>
+            <tr>
+                <th>Repo</th>
+                <th>Watchers</th>
+                <th>Forks</th>
+                <th>Size</th>
+                <th>Open Issues</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each query.results.json}}
+            <tr>
+                <td><a href="{{repo.html_url}}" target="_blank">{{name}}</a></td>
+                <td>{{watchers}}</td>
+                <td>{{forks}}</td>
+                <td>{{size}}</td>
+                <td>{{open_issues}}</td>
+                <td><a href="{{owner.html_url}}" title="Repo owner" target="_blank">{{owner.login}}</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+<script type="text/x-handlebars-template" id="list-template">
+        {{#each query.results.json}}
+        <article class="small">
+            <h1><a href="{{html_url}}" target="_blank">{{name}}</a></h1>
+            <h2>Owner: <a href="{{owner.html_url}}" title="Repo owner" target="_blank">{{owner.login}}</a></h2>
+            <dl>
+                <dt>Watchers</dt><dd>{{watchers}}</dd>
+                <dt>Forks</dt><dd>{{forks}}</dd>
+                <dt>Size</dt><dd>{{size}}</dd>
+                <dt>Open Issues</dt><dd>{{open_issues}}</dd>
+            </dl>
+        </article>
+        {{/each}}
+</script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+<script src="js/backbone.js"></script>
+</body>
+</html>

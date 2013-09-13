@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"/>
+<meta charset=utf-8 />
+<title>Responsive template swapping with custom Angular Directive</title>
+<style>
+    /* animations for loading */
+    .loading {
+        position: fixed;
+        width: 10em;
+        height: 10em;
+        line-height: 10em;
+        background-color: #444;
+        color: #eee;
+        margin: auto;
+        top: 0; left: 0; bottom: 0; right: 0;
+    }
+    .loading.ng-hide-add,
+    .loading.ng-hide-remove {
+      -webkit-transition:0.5s linear all;
+      -moz-transition:0.5s linear all;
+      -o-transition:0.5s linear all;
+      transition:0.5s linear all;
+      display:block!important;
+    }
+    .loading.ng-hide-remove {
+      opacity:0;
+    }
+    .loading.ng-hide-remove.ng-hide-remove-active {
+      opacity:1;
+    }
+    .loading.ng-hide-add {
+      opacity:1;
+    }
+    .loading.ng-hide-add.ng-hide-add-active {
+      opacity:0;
+    }
+</style>
+</head>
+<body>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-resource.min.js"></script>
+  <script src="js/angular.js"></script>
+  <div ng-app="gitRepos" ng-controller="gitReposController" breakpoint="min-width: 44.375em" >
+    <table ng-if="matches" ng-show="!loading " class="big">
+        <thead>
+            <tr>
+                <th>Repo</th>
+                <th>Watchers</th>
+                <th>Forks</th>
+                <th>Size</th>
+                <th>Open Issues</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="repo in repos">
+                <td><a ng-href="{{repo.html_url}}" target="_blank">{{repo.name}}</a></td>
+                <td>{{repo.watchers}}</td>
+                <td>{{repo.forks}}</td>
+                <td>{{repo.size}}</td>
+                <td>{{repo.open_issues}}</td>
+                <td><a ng-href="{{repo.owner.html_url}}" title="Repo owner" target="_blank">{{repo.owner.login}}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div ng-if="!matches" ng-show="!loading"> <!-- Wrapper required to avoid multiple-directioves/transclusion error. See https://github.com/angular-ui/angular-ui/issues/481 -->
+        <article class="small" ng-repeat="repo in repos">
+            <h1><a ng-href="{{repo.html_url}}" target="_blank">{{repo.name}}</a></h1>
+            <h2>Owner: <a ng-href="{{repo.owner.html_url}}" title="Repo owner" target="_blank">{{repo.owner.login}}</a></h2>
+            <dl>
+                <dt>Watchers</dt><dd>{{repo.watchers}}</dd>
+                <dt>Forks</dt><dd>{{repo.forks}}</dd>
+                <dt>Size</dt><dd>{{repo.size}}</dd>
+                <dt>Open Issues</dt><dd>{{repo.open_issues}}</dd>
+            </dl>
+        </article>
+    </div>
+    <div ng-show="loading" class="loading" >
+        Loading...  
+    </div>
+</div>
+</body>
+</html>
