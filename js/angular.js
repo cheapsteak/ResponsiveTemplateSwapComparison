@@ -1,41 +1,27 @@
+var repos = [{"name":"bootstrap","owner":{"html_url":"https://github.com/twbs","login":"twbs"},"html_url":"https://github.com/twbs/bootstrap","size":"64893","forks":"20018","open_issues":"159","watchers":"58229"},{"name":"node","owner":{"html_url":"https://github.com/joyent","login":"joyent"},"html_url":"https://github.com/joyent/node","size":"380079","forks":"4731","open_issues":"633","watchers":"24526"},{"name":"jquery","owner":{"html_url":"https://github.com/jquery","login":"jquery"},"html_url":"https://github.com/jquery/jquery","size":"22400","forks":"4899","open_issues":"7","watchers":"23630"},{"name":"html5-boilerplate","owner":{"html_url":"https://github.com/h5bp","login":"h5bp"},"html_url":"https://github.com/h5bp/html5-boilerplate","size":"73410","forks":"5422","open_issues":"8","watchers":"22283"},{"name":"rails","owner":{"html_url":"https://github.com/rails","login":"rails"},"html_url":"https://github.com/rails/rails","size":"220428","forks":"6557","open_issues":"741","watchers":"19587"}];
+//normally you'd use `app.factory` to create a service to make a request
+
 var app = angular.module("gitRepos", ['ngResource', 'ngAnimate']);
 
 app.directive("breakpoint", function () {
     return function (scope, element, attrs) {
-        var breakpoint = attrs.breakpoint;
-        var mql = window.matchMedia( "(" + breakpoint + ")" );
-        var mqlHandler = function (mql) {
-            scope.matches = mql.matches;
-            if(!scope.$$phase) { //prevents it from unnecessarily calling $scope.$apply when the page first runs
-                scope.$apply(); //triggers the digest cycle
-            }
-        };
-        mql.addListener(mqlHandler);
-        mqlHandler(mql);
-    };
-});
-
-// Create and register the new "github" service
-app.factory('github', function($resource){
-    return {
-        fetch: function(callback){
-            var api = $resource("http://query.yahooapis.com/v1/public/yql?q=select%20name%2Cowner.login%2C%20owner.html_url%2Chtml_url%2Csize%2Cwatchers%2Cforks%2Copen_issues%20from%20github.repo%20where%20(repo%3D'bootstrap'%20and%20id%3D'twbs')%20OR%20(repo%3D'node'%20and%20id%3D'joyent')%20OR%20(repo%3D'jquery'%20and%20id%3D'jquery')%20%20OR%20(repo%3D'html5-boilerplate'%20and%20id%3D'h5bp')%20OR%20(repo%3D'rails'%20and%20id%3D'rails')&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=JSON_CALLBACK", null, {
-                fetch:{method:'JSONP'}
-            });
-            api.fetch(function(response){
-                // Call the supplied callback function
-                callback(response.query.results.json);
-            });
+        if (window.matchMedia) {
+            var breakpoint = attrs.breakpoint;
+            var mql = window.matchMedia( "(" + breakpoint + ")" );
+            var mqlHandler = function (mql) {
+                scope.matches = mql.matches;
+                if(!scope.$$phase) { //prevents it from unnecessarily calling $scope.$apply when the page first runs
+                    scope.$apply(); //triggers the digest cycle
+                }
+            };
+            mql.addListener(mqlHandler);
+            mqlHandler(mql);
+        } else {
+            scope.matches = false;
         }
     };
-
 });
 
-function gitReposController($scope, github){
-    $scope.repos = [];
-    $scope.loading = true;
-    github.fetch(function(data){
-        $scope.repos = data;
-        $scope.loading = false;
-    });
+function gitReposController($scope){
+    $scope.repos = repos; //normally you'd use a service to fetch the data
 }
