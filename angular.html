@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="css/style.css" type="text/css"/>
+<link href="css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
 <meta charset=utf-8 />
 <title>Responsive template swapping with custom Angular Directive</title>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
@@ -11,7 +11,7 @@
 </head>
 <body>
     <div ng-app="gitRepos" ng-controller="gitReposController" breakpoint="min-width: 44.375em" >
-        <table ng-if="matches" class="big">
+        <table ng-if="matches" class="table">
             <thead>
                 <tr>
                     <th>Repo</th>
@@ -35,9 +35,11 @@
         </table>
 
         <div ng-if="!matches"> <!-- Wrapper required to avoid multiple-directioves/transclusion error. See https://github.com/angular-ui/angular-ui/issues/481 -->
-            <article class="small" ng-repeat="repo in repos">
-                <h1><a ng-href="{{repo.html_url}}" target="_blank">{{repo.name}}</a></h1>
-                <h2>Owner: <a ng-href="{{repo.owner.html_url}}" title="Repo owner" target="_blank">{{repo.owner.login}}</a></h2>
+            <article class="card" ng-repeat="repo in repos">
+                <header>
+                    <h1><a ng-href="{{repo.html_url}}" target="_blank">{{repo.name}}</a></h1>
+                    <h2>owned by <a ng-href="{{repo.owner.html_url}}" title="Repo owner" target="_blank">{{repo.owner.login}}</a></h2>
+                </header>
                 <dl>
                     <dt>Watchers</dt><dd>{{repo.watchers}}</dd>
                     <dt>Forks</dt><dd>{{repo.forks}}</dd>
@@ -47,6 +49,6 @@
             </article>
         </div>
     </section>
-    <aside>Stats as of September 14th, 2013</aside>
+    <aside>Stats from September 14th, 2013 (not up to date)</aside>
 </body>
 </html>

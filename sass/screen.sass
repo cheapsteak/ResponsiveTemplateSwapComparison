@@ -1,0 +1,70 @@
+@import compass/reset
+@import compass/css3
+
+$breakpoint: 44.375em
+
+* 
+    box-sizing: border-box
+
+body
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif
+    color: #33393b
+    @media (max-width: $breakpoint)
+        background-color: #eee
+a
+    text-decoration: none
+    color: #005075
+    font-weight: bold
+.table
+    width: 100%
+thead
+    font-size: 1.2em
+    background-color: #8cbf26
+    color: #1f2e3a
+    padding-top: .5em
+th
+    font-weight: bold
+tbody
+    font-size: 1.1em
+    tr:nth-child(even)
+        background-color: #F1F1F1
+tr
+    line-height: 2em
+    td:first-child, th:first-child
+        text-indent: 1em
+aside
+    margin: 1.6em 1em
+    color: #555
+    font-style: italic
+
+.card
+    margin: 1em .8em
+    padding: 1em
+    border-radius: .1875em
+    border: 1px solid #e2e2e2
+    // border: 1px solid #8CBF26
+    +box-shadow(#E2E2E2 0 2px)
+    // +box-shadow(#8CBF26 0 2px)
+    background-color: #fff
+    a
+        color: #8CBF26
+    h1
+        font-size: 1.6em
+        margin: .25em 0 .4em
+    h2
+        font-size: 1.2em
+        margin: .7em 0 .5em
+    dl
+        overflow: hidden
+        width: 100%
+        padding: .2em
+        margin-top: 1em
+    dt, dd
+        float: left
+        width: 25%
+        line-height: 1.2em
+        margin: .3em 0
+    dt
+        color: #5E6D74
+        font-weight: bold
+        padding-right: .5em

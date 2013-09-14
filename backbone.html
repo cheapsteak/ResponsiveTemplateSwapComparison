@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="css/style.css" type="text/css"/>
+<link href="css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
 <meta charset=utf-8 />
 <title>Responsive template swapping with matchMedia, handlebars, and Backbone Views</title>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -12,9 +12,9 @@
 </head>
 <body>
     <section id="gitRepos"></section>
-    <aside>Stats as of September 14th, 2013</aside>
+    <aside>Stats from September 14th, 2013 (not up to date)</aside>
     <script type="text/x-handlebars-template" id="table-template">
-        <table class="big">
+        <table class="table">
             <thead>
                 <tr>
                     <th>Repo</th>
@@ -39,11 +39,13 @@
             </tbody>
         </table>
     </script>
-    <script type="text/x-handlebars-template" id="list-template">
+    <script type="text/x-handlebars-template" id="card-template">
             {{#each repos}}
-            <article class="small">
-                <h1><a href="{{html_url}}" target="_blank">{{name}}</a></h1>
-                <h2>Owner: <a href="{{owner.html_url}}" title="Repo owner" target="_blank">{{owner.login}}</a></h2>
+            <article class="card">
+                <header>
+                    <h1><a href="{{html_url}}" target="_blank">{{name}}</a></h1>
+                    <h2>owned by <a href="{{owner.html_url}}" title="Repo owner" target="_blank">{{owner.login}}</a></h2>
+                </header>
                 <dl>
                     <dt>Watchers</dt><dd>{{watchers}}</dd>
                     <dt>Forks</dt><dd>{{forks}}</dd>
