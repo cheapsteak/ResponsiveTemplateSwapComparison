@@ -2,28 +2,33 @@ var repos = [{"name":"bootstrap","owner":{"html_url":"https://github.com/twbs","
 // Normally a Backbone Model would be used to fetch data
 
 var ResponsiveView = Backbone.View.extend({
-    initialize: function (options) {
-        var self = this;
-        if (window.matchMedia) {
-            var mqlHandler = function (mql) {
-            if (mql.matches) {
-                self.template = options.tableTemplate;
-            } else {
-                self.template = options.cardTemplate;
-            }
-                self.render();
-            };
-            var widthCheck = window.matchMedia("(min-width: 44.375em)");
-            widthCheck.addListener(mqlHandler);
-            mqlHandler(widthCheck);
+    mqlListener: function (mql, matchedTemplate, unmatchedTemplate) {
+        if (mql.matches) {
+            this.template = matchedTemplate;
         } else {
-            self.template = tableTemplate; //IE9 and older
+            this.template = unmatchedTemplate;
+        }
+        this.render();
+    },
+    initialize: function (options) {
+        var matchedTemplate = options.matchedTemplate,
+            unmatchedTemplate = options.unmatchedTemplate;
+        if (window.matchMedia) {
+            this.mql = window.matchMedia("("+options.breakpoint+")");
+            this.mql.addListener(_.bind(this.mqlListener, this, this.mql, matchedTemplate, unmatchedTemplate));
+            this.mqlListener(this.mql, matchedTemplate, unmatchedTemplate); //do an initial check when page loads
+        } else {
+            this.template = matchedTemplate; //IE9 and older
         }
     },
     render: function () {
         var html = this.template({repos: repos});
         this.$el.html(html);
     },
+    remove: function () {
+        this.mql.removeListener(this.mqlListener);
+        Backbone.View.prototype.remove.call(this);
+    }
 });
 
 $(function () {
@@ -31,7 +36,8 @@ $(function () {
         cardTemplate = Handlebars.compile($('#card-template').html());
     new ResponsiveView({
         el: '#gitRepos',
-        tableTemplate: tableTemplate,
-        cardTemplate: cardTemplate
+        breakpoint: 'min-width: 44.375em',
+        matchedTemplate: tableTemplate,
+        unmatchedTemplate: cardTemplate
     });
 });
