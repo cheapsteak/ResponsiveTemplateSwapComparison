@@ -4,13 +4,15 @@
 <link href="css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
 <meta charset=utf-8 />
 <title>Responsive template swapping with custom Angular Directive</title>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-animate.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-resource.min.js"></script>
-<script src="js/angular.js"></script>
+<style>
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+</style>
 </head>
+
 <body>
-    <div ng-app="gitRepos" ng-controller="gitReposController" breakpoint="min-width: 44.375em" >
+    <div ng-app="gitRepos" ng-controller="gitReposController" breakpoint="min-width: 44.375em" ng-cloak>
         <table ng-if="matches" class="table">
             <thead>
                 <tr>
@@ -50,5 +52,7 @@
         </div>
     </section>
     <aside>Stats from September 14th, 2013 (not up to date)</aside>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
+    <script src="js/angular.js"></script>
 </body>
 </html>
